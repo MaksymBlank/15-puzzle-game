@@ -1,0 +1,27 @@
+.square{
+    &-block{
+        width: 90px;
+        height: 90px;
+        margin: 4px;
+
+        &:not(.empty){
+            text-align: center;
+            border: 1px solid darken(#D39F17, 3%);
+            background-color: #D39F17;
+            border-radius: 5px;
+            color: white;
+            transition: .2s;
+
+            &:hover{
+                background-color: darken(#D39F17, 5%);
+                cursor: pointer;
+            }
+        }
+    
+        h2{
+            line-height: 90px;
+            margin-bottom: 0;
+            height: 100%;
+        }
+    }
+}

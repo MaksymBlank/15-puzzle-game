@@ -1,0 +1,28 @@
+@import './../vars.scss';
+
+.board{
+    width: 400px;
+    height: 400px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4px;
+}
+
+.game-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1{
+        font-size: 2.5rem;
+        color: $c_secondary;
+        margin-bottom: 0;
+    }
+
+    button{
+        font-weight: 600;
+    }
+}
