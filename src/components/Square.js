@@ -19,7 +19,10 @@ export default class Square extends React.Component{
 
     render(){
         return (
-            <div onClick={this.props.onSwitch.bind(null, this.props.value)} className="square">
+            <div onClick={this.props.onSwitch.bind(null, this.props.value)} className="square" style={{
+                top: this.props.position[0] * 95,
+                left: this.props.position[1] * 95 + 2 + 4 * this.props.position[1]
+            }}>
                 {
                     this.getBlock()
                 }

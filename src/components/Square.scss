@@ -1,4 +1,7 @@
 .square{
+    position: absolute;
+    transition: .5s;
+
     &-block{
         width: 90px;
         height: 90px;

@@ -19,19 +19,43 @@ export default class Board extends React.Component{
 
     onSwitchHandler(key){
         const keyIndex = _.indexOf(this.state.squares, key);
+        const emptyIndex = _.indexOf(this.state.squares, 16);
+
+        // checking if key is movable
+
+        if(!_.includes([keyIndex - 1, keyIndex + 1, keyIndex - 4, keyIndex + 4], emptyIndex)){
+            return;
+        }
+
+        let squares = this.state.squares;
+
+        squares = _.map(squares, (v, i) => {
+            if(i === keyIndex){
+                return 16;
+            }
+            if(i === emptyIndex){
+                return key;
+            }
+
+            return v;
+        })
+
+        this.setState({
+            squares: squares
+        })
     }
 
     render(){
         return (
-            <div>
+            <div className="game shadow">
                 <div className="game-title">
                     <h1>15 puzzle</h1>
                     <div>
                         <button onClick={this.shuffle.bind(this)} className="btn btn-secondary">Shuffle</button>
                     </div>
                 </div>
-                <div className="board shadow">
-                    {this.state.squares.map((v, i) => <Square onSwitch={(key) => this.onSwitchHandler(key)} key={i} value={v} />)}
+                <div className="board">
+                    {this.state.squares.map((v, i) => <Square position={[Math.floor(i / this.props.size), i % this.props.size]} onSwitch={(key) => this.onSwitchHandler(key)} key={i} value={v} />)}
                 </div>
             </div>
         )
