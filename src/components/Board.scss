@@ -31,4 +31,8 @@
     flex-wrap: wrap;
     padding: 4px;
     position: relative;
+
+    &-paused{
+        pointer-events: none;
+    }
 }

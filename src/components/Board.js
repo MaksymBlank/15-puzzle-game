@@ -3,16 +3,33 @@ import './Board.scss';
 import Square from './Square';
 
 import _ from 'lodash';
+import swal from 'sweetalert2';
 
 export default class Board extends React.Component{
     constructor(props){
         super(props);
 
-        this.state = {squares: Array.apply(null, {length: Math.pow(props.size, 2)}).map((v, i) => i + 1)};
+        this.state = {
+            squares: Array.apply(null, {length: Math.pow(props.size, 2)}).map((v, i) => i + 1),
+            started: false
+        };
     }
 
     shuffle(){
+        // stop game if started
+        if(this.state.started){
+            this.setState({
+                started: false,
+                squares: Array.apply(null, {length: Math.pow(this.props.size, 2)}).map((v, i) => i + 1)
+            })
+            return;
+        }
+
         let squares = this.state.squares;
+
+        this.setState({
+            started: true
+        })
 
         let possibleMoves, emptyIndex, oldIndex;
 
@@ -93,6 +110,26 @@ export default class Board extends React.Component{
         this.setState({
             squares: squares
         })
+
+        // checks if you won
+        if(_.size(_.filter(squares, (v,i) => v === i + 1)) === 16){
+            this.setState({
+                started:false
+            })
+
+            swal.fire({
+                title: 'You won! Congrats!',
+                text: 'Wanna play another game?',
+                confirmButtonText: 'Play',
+                showCancelButton: true,
+                showCloseButton: true,
+                type: 'success'
+            }).then((res) => {
+                if(res.value){
+                    this.shuffle();
+                }
+            })
+        }
     }
 
     render(){
@@ -101,10 +138,10 @@ export default class Board extends React.Component{
                 <div className="game-title">
                     <h1>15 puzzle</h1>
                     <div>
-                        <button onClick={this.shuffle.bind(this)} className="btn btn-secondary">Shuffle</button>
+                        <button onClick={this.shuffle.bind(this)} className={this.state.started ? 'btn btn-danger' : 'btn btn-primary'}>{this.state.started ? 'Stop' : 'Start game'}</button>
                     </div>
                 </div>
-                <div className="board">
+                <div className="board" style={this.state.started ? {} : {pointerEvents: 'none'}}>
                     {this.state.squares.map((v, i) => <Square position={[Math.floor(i / this.props.size), i % this.props.size]} onSwitch={(key) => this.onSwitchHandler(key)} key={i} value={v} />)}
                 </div>
             </div>
